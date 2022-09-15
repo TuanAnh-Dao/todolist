@@ -1,33 +1,57 @@
-import React, { useEffect, useRef, useState } from "react";
+import { getGroupByName } from "../utils/ListAction";
+import React, { useState, useEffect } from "react";
+import { v4 } from "uuid";
+import constants from "../utils/constant";
 
-export default function From(props) {
-  const [taskName, setTaskName] = useState("");
+export default function From({ state, taskInputRef, setState }) {
+  const [task, setTask] = useState("");
 
   function handleChange(e) {
-    setTaskName(e.target.value);
+    setTask(e.target.value);
   }
-  function handleSubmit(e) {
+  function addTask(e) {
     e.preventDefault();
-    if (!taskName.trim()) {
-      return;
-    }
-    props.addTask(taskName);
-    setTaskName("");
+    let { index, group } = getGroupByName(state, constants.STATUS.TO_DO);
+    let newTask = {
+      id: v4(),
+      taskName: task,
+      status: constants.STATUS.TO_DO,
+      endDate: new Date(),
+    };
+    let newState = [...state];
+    group.tasks.unshift(newTask);
+    newState[index] = group;
+    setState(newState);
+    setTask("");
+    taskInputRef.current.focus();
   }
+  useEffect(() => {
+    taskInputRef.current.focus();
+  },[]);
+  console.log("Form");
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="add-items d-flex">
-        <input
-          id="newTask"
-          type="text"
-          className="form-control todo-list-input"
-          placeholder="What do you need to do today?"
-          onChange={handleChange}
-          value={taskName}
-        />
+    <form
+      className="input-group"
+      onSubmit={addTask}
+      style={{ width: "80%", margin: "0 auto" }}
+    >
+      <input
+        id="addTask"
+        ref={taskInputRef}
+        type="text"
+        className="form-control inputCustom"
+        placeholder="Add some tasks..."
+        aria-label="Add some tasks..."
+        aria-describedby="button-addon2"
+        autoComplete="off"
+        onChange={handleChange}
+        value={task}
+      />
+      <div className="input-group-append">
         <button
+          className="btn btn-outline-secondary buttonCustom"
           type="submit"
-          className="add btn btn-primary font-weight-bold todo-list-add-btn"
+          id="button-addon2"
         >
           Add
         </button>

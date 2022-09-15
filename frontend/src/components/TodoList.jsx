@@ -1,69 +1,122 @@
-import Task from "./Task";
-import React, { useEffect, useRef, useState } from "react";
-import ApiService from "../utils/ApiService";
-import From from "./Form";
-import { nanoid } from "nanoid";
+import Form from "./Form";
+import React, { useState, useRef } from "react";
+import { v4 } from "uuid";
+import constants from "../utils/constant";
+import DragDrop from "./DragDrop";
 
 function TodoList() {
-  const [tasks, setTasks] = useState([
+  const [state, setState] = useState([
     {
-      id: 1,
-      taskName: "For what reason would it be advisable.",
-      isDone: false,
-      createAt: new Date(),
+      groupName: constants.STATUS.PENDING,
+      groupId: v4(),
+      tasks: [
+        {
+          id: v4(),
+          taskName: "Pending 1",
+          status: constants.STATUS.PENDING,
+          endDate: new Date(),
+        },
+        {
+          id: v4(),
+          taskName: "Pending 2",
+          status: constants.STATUS.PENDING,
+          endDate: new Date(),
+        },
+        {
+          id: v4(),
+          taskName: "Pending 3",
+          status: constants.STATUS.PENDING,
+          endDate: new Date(),
+        },
+      ],
     },
     {
-      id: 2,
-      taskName: "For what reason would it be advisable.",
-      isDone: true,
-      createAt: new Date(),
+      groupName: constants.STATUS.TO_DO,
+      groupId: v4(),
+      tasks: [
+        {
+          id: v4(),
+          taskName: "To do 1",
+          status: constants.STATUS.TO_DO,
+          endDate: new Date(),
+        },
+        {
+          id: v4(),
+          taskName: "To do 2",
+          status: constants.STATUS.TO_DO,
+          endDate: new Date(),
+        },
+        {
+          id: v4(),
+          taskName: "To do 3",
+          status: constants.STATUS.TO_DO,
+          endDate: new Date(),
+        },
+      ],
     },
     {
-      id: 3,
-      taskName: "For what reason would it be advisable.",
-      isDone: false,
-      createAt: new Date(),
+      groupName: constants.STATUS.IN_PROGRESS,
+      groupId: v4(),
+      tasks: [
+        {
+          id: v4(),
+          taskName: "In progress 1",
+          status: constants.STATUS.IN_PROGRESS,
+          endDate: new Date(),
+        },
+        {
+          id: v4(),
+          taskName: "In progress 2",
+          status: constants.STATUS.IN_PROGRESS,
+          endDate: new Date(),
+        },
+        {
+          id: v4(),
+          taskName: "In progress 3",
+          status: constants.STATUS.IN_PROGRESS,
+          endDate: new Date(),
+        },
+      ],
+    },
+    {
+      groupName: constants.STATUS.DONE,
+      groupId: v4(),
+      tasks: [
+        {
+          id: v4(),
+          taskName: "Done 1",
+          status: constants.STATUS.DONE,
+          endDate: new Date(),
+        },
+        {
+          id: v4(),
+          taskName: "Done 2",
+          status: constants.STATUS.DONE,
+          endDate: new Date(),
+        },
+        {
+          id: v4(),
+          taskName: "Done 3",
+          status: constants.STATUS.DONE,
+          endDate: new Date(),
+        },
+      ],
     },
   ]);
-
-  const deleteTask = (id) => {
-    // this.apiService.deleteItem(id);
-    
-     setTasks(tasks.filter((task) => task.id != id));
-  };
-
-  const addTask = (taskName) => {
-    const newTask = {
-      id: "todo-" + nanoid(),
-      taskName: taskName,
-      isDone: false,
-      createAt: new Date(),
-    };
-    setTasks([...tasks, newTask]);
-  };
-
-  const taskList = tasks.map((task) => (
-    <Task key={task.id} task={task} deleteTask={deleteTask} />
-  ));
+  const taskInput = useRef();
 
   return (
     <div className="page-content page-container" id="page-content">
       <div className="padding">
-        <div className="container d-flex justify-content-center">
-          <div className="col-md-12">
-            <div className="card px-3">
-              <div className="card-body">
-                <h4 className="card-title">Awesome Todo list</h4>
-
-                <From addTask={addTask} />
-
-                <div className="list-wrapper">
-                  <ul className="d-flex flex-column-reverse todo-list">
-                    {taskList}
-                  </ul>
-                </div>
-              </div>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-12 mb-4">
+              <Form state={state} taskInputRef={taskInput} setState={setState} />
             </div>
+          </div>
+
+          <div className="row mt-3 ">
+            <DragDrop state={state} setState={setState} />
           </div>
         </div>
       </div>
