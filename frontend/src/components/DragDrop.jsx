@@ -43,7 +43,7 @@ export default function DragDrop({ state, setState }) {
     newState = updateGroup(newState, newTasks, groupId);
     setState(newState);
   }
-  console.log("drag");
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {state.map((el, ind) => (

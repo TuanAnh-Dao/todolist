@@ -1,5 +1,5 @@
 import Form from "./Form";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { v4 } from "uuid";
 import constants from "../utils/constant";
 import DragDrop from "./DragDrop";
@@ -103,7 +103,7 @@ function TodoList() {
       ],
     },
   ]);
-  const taskInput = useRef();
+  
 
   return (
     <div className="page-content page-container" id="page-content">
@@ -111,7 +111,7 @@ function TodoList() {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12 mb-4">
-              <Form state={state} taskInputRef={taskInput} setState={setState} />
+              <Form state={state} setState={setState} />
             </div>
           </div>
 

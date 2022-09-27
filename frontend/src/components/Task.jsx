@@ -1,8 +1,8 @@
 import constants from "../utils/constant";
 import Moment from "moment";
-import {memo} from "react";
+import { memo } from "react";
 
- function Task({ handleDelete, task, group }) {
+function Task({ handleDelete, task, group }) {
   const getTaskColor = (task) => {
     let defaultClass = "card rounded shadow-sm mt-3 ";
     switch (task.status) {
@@ -16,7 +16,7 @@ import {memo} from "react";
         return `${defaultClass} border-warning text-secondary`;
     }
   };
-  console.log("task");
+
   return (
     <div className={getTaskColor(task)}>
       <div className="card-body">
