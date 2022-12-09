@@ -4,7 +4,7 @@ function ApiService(url) {
   console.log(url)
   const methods = {
     getData() {
-      return fetch(url + `/State`)
+      return fetch(url + `/State`,{ mode: 'no-cors'})
         .then((response) => {
           if (!response.ok) {
             this.handleResponseError(response);

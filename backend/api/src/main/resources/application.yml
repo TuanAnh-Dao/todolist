@@ -4,7 +4,7 @@ server:
     include-binding-errors: always
 spring:
   datasource:
-    password: root
+    password: hung68699702
     url: jdbc:mysql://localhost:3306/todolist?serverTimezone=UTC
     username: root
   jackson:
