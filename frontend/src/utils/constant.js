@@ -1,9 +1,9 @@
 const constants = {
   STATUS: {
-    TO_DO: "to_do",
-    IN_PROGRESS: "in_progress",
-    DONE: "done",
-    PENDING: "pending"
+    TO_DO: "To do",
+    IN_PROGRESS: "In Progress",
+    DONE: "Done",
+    PENDING: "Pending"
   },
 };
 export default constants;

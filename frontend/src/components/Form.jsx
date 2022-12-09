@@ -54,7 +54,7 @@ export default function From({ state, setState }) {
   const taskInput = useRef();
 
   async function addTask(data) {
-    debugger;
+    
     let { index, group } = getGroupByName(state, constants.STATUS.TO_DO);
     let newTask = {
       id: v4(),
@@ -71,7 +71,6 @@ export default function From({ state, setState }) {
     formik.resetForm(initialValues);
     taskInput.current.focus();
   }
-  console.log(loading);
   useEffect(() => {
     taskInput.current.focus();
   }, []);

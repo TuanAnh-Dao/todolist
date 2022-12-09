@@ -28,7 +28,7 @@ public class DefaultConfig {
                     );
 
             State state3 = new State(
-                    "In Progess",
+                    "In Progress",
                     2,
                     "#fff"
                     );

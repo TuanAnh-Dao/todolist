@@ -111,10 +111,24 @@ function TodoList() {
   useEffect(() => {
     const getData = async()=>{
       const data = await api.getData();
-      setState(data);
+      
+      setState(formatDataForDisplay(data));
     }
     getData();
   },[]);
+
+  const formatDataForDisplay = (data) => {
+    let formatedData = data?.map((state)=>{
+      let status = state.name;
+      let tasks = state?.taskList?.map(function(task){
+        return {...task, status: this}
+      }, status)
+      return {...state, 'taskList': tasks};
+    })
+    
+    return formatedData;
+  }
+
   return (
     <div className="page-content page-container" id="page-content">
       <div className="padding">

@@ -2,11 +2,12 @@ server:
   error:
     include-message: always
     include-binding-errors: always
+  port: 5000
 spring:
   datasource:
     password: hung68699702
-    url: jdbc:mysql://localhost:3306/todolist?serverTimezone=UTC
-    username: root
+    url: jdbc:mysql://database-1.cfzty5dpbn4z.ap-northeast-1.rds.amazonaws.com:3306/todolist?serverTimezone=UTC
+    username: admin
   jackson:
     serialization:
       indent_output: true

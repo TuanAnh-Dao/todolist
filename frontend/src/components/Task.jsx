@@ -4,6 +4,7 @@ import { memo } from "react";
 
 function Task({ handleDelete, task, group }) {
   const getTaskColor = (task) => {
+    
     let defaultClass = "card rounded shadow-sm mt-3 ";
     switch (task?.status) {
       case constants.STATUS.DONE:

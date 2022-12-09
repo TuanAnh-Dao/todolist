@@ -36,7 +36,7 @@ const updateGroup = (state, tasks, groupId) => {
   return updateGroup;
 };
 const getGroupByID = (state, groupID) => {
-  debugger;
+  
   return state.find((group) => group.id == groupID);
 };
 const getGroupByName = (state, groupName) => {

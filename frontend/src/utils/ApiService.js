@@ -1,22 +1,15 @@
-
-
 function ApiService(url) {
-  console.log(url)
   const methods = {
     getData() {
-      return fetch(url + `/State`,{ mode: 'no-cors'})
+      return fetch(url + `/State`)
         .then((response) => {
           if (!response.ok) {
             this.handleResponseError(response);
           }
-          debugger;
           return response.json();
         })
 
         .then((json) => {
-          console.log("Retrieved items:");
-          console.log(json);
-          
           return json;
         })
 
@@ -26,10 +19,6 @@ function ApiService(url) {
     },
 
     createItem(newitem) {
-      console.log("ItemService.createItem():");
-
-      console.log(newitem);
-
       return fetch(url, {
         method: "POST",
 
@@ -55,10 +44,6 @@ function ApiService(url) {
     },
 
     deleteItem(taskID) {
-      console.log("ItemService.deleteItem():");
-
-      console.log("item: " + taskID);
-
       return fetch(`${url}/${taskID}`, {
         method: "DELETE",
 
@@ -76,10 +61,6 @@ function ApiService(url) {
     },
 
     changeStatus(task) {
-      console.log("ItemService.updateItem():");
-
-      console.log(task);
-
       return fetch(url + `/${task.id}`, {
         method: "PUT",
 
@@ -110,11 +91,9 @@ function ApiService(url) {
 
     handleError(error) {
       console.log(error.message);
-    }
-
-  }
+    },
+  };
   return methods;
-
 }
 
 export default ApiService;
