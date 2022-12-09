@@ -5,7 +5,7 @@ import { memo } from "react";
 function Task({ handleDelete, task, group }) {
   const getTaskColor = (task) => {
     let defaultClass = "card rounded shadow-sm mt-3 ";
-    switch (task.status) {
+    switch (task?.status) {
       case constants.STATUS.DONE:
         return `${defaultClass} border-light text-secondary`;
       case constants.STATUS.TO_DO:
@@ -14,25 +14,27 @@ function Task({ handleDelete, task, group }) {
         return `${defaultClass} border-info text-secondary`;
       case constants.STATUS.PENDING:
         return `${defaultClass} border-warning text-secondary`;
+      default:
+        return `${defaultClass} border-light text-secondary`;
     }
   };
 
   return (
     <div className={getTaskColor(task)}>
       <div className="card-body">
-        <p className="card-text">{task.taskName}</p>
+        <p className="card-text">{task.name}</p>
       </div>
       <div className="card-footer bg-transparent ">
         <i className="fa fa-calendar ml-1" aria-hidden="true">
           <span style={{ fontSize: "12px" }} className="ml-1 font-italic">
-            {Moment(task.endDate).format("DD-MM-YYYY")}
+            {Moment(task.deadline).format("DD-MM-YYYY")}
           </span>
         </i>
         <i
           className="fa fa-trash-o deleteButton"
           aria-hidden="true"
           onClick={() => {
-            handleDelete(task.id, group.groupId);
+            handleDelete(task.id, group.id);
           }}
         ></i>
       </div>

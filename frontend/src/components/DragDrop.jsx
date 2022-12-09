@@ -8,7 +8,7 @@ export default function DragDrop({ state, setState }) {
     let newState = [...state];
     const sourceDropID = source.droppableId;
     const desDropID = destination.droppableId;
-
+    
     // dropped outside the list
     if (!destination) {
       return;
@@ -16,18 +16,18 @@ export default function DragDrop({ state, setState }) {
 
     if (sourceDropID === desDropID) {
       const items = reorder(
-        getGroupByID(state, sourceDropID)?.tasks,
+        getGroupByID(state, sourceDropID)?.taskList,
         source.index,
         destination.index
       );
       newState = updateGroup([...state], items, sourceDropID);
     } else {
       const result = move(
-        getGroupByID(state, sourceDropID)?.tasks,
-        getGroupByID(state, desDropID)?.tasks,
+        getGroupByID(state, sourceDropID)?.taskList,
+        getGroupByID(state, desDropID)?.taskList,
         source,
         destination,
-        getGroupByID(state, desDropID)?.groupName
+        getGroupByID(state, desDropID)?.name
       );
       newState = updateGroup(newState, result[sourceDropID], sourceDropID);
       newState = updateGroup(newState, result[desDropID], desDropID);
@@ -37,30 +37,30 @@ export default function DragDrop({ state, setState }) {
 
   function handleDelete(taskId, groupId) {
     let group = getGroupByID(state, groupId);
-    let newTasks = group.tasks.filter((t) => t.id !== taskId);
+    let newTasks = group.taskList.filter((t) => t.id !== taskId);
     let newState = [...state];
 
     newState = updateGroup(newState, newTasks, groupId);
     setState(newState);
   }
-
+ 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      {state.map((el, ind) => (
+      {state?.map((el, ind) => (
         <div className="col-md-3 " key={ind}>
           <div className="card rounded shadow-sm border-light">
             <div className="card-body p-1 text-center text-uppercase font-weight-bold text-secondary">
-              {el.groupName}
+              {el.name}
             </div>
           </div>
-          <Droppable droppableId={el.groupId}>
+          <Droppable droppableId={el.id}>
             {(provided) => (
               <div
                 className="scrollable"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {el.tasks.map((item, index) => (
+                {el.taskList?.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided) => (
                       <div

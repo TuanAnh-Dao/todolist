@@ -27,8 +27,8 @@ const move = (
 };
 const updateGroup = (state, tasks, groupId) => {
   const updateGroup = _.map(state, (group) => {
-    if (group.groupId == groupId) {
-      group.tasks = tasks;
+    if (group.id == groupId) {
+      group.taskList = tasks;
     }
     return group;
   });
@@ -36,10 +36,11 @@ const updateGroup = (state, tasks, groupId) => {
   return updateGroup;
 };
 const getGroupByID = (state, groupID) => {
-  return state.find((group) => group.groupId == groupID);
+  debugger;
+  return state.find((group) => group.id == groupID);
 };
 const getGroupByName = (state, groupName) => {
-  let index = state.findIndex((group) => group.groupName == groupName);
+  let index = state.findIndex((group) => group.name == groupName);
   
   return { index: index, group: state[index] };
 };
