@@ -44,4 +44,17 @@ const getGroupByName = (state, groupName) => {
   
   return { index: index, group: state[index] };
 };
-export { reorder, getGroupByID, getGroupByName, updateGroup, move };
+
+const formatDataForDisplay = (data) => {
+  let formatedData = data?.map((state)=>{
+    let status = state.name;
+    let tasks = state?.taskList?.map(function(task){
+      return {...task, status: this}
+    }, status)
+    return {...state, 'taskList': tasks};
+  })
+  
+  return formatedData;
+}
+
+export { reorder, getGroupByID, getGroupByName, updateGroup, move, formatDataForDisplay };

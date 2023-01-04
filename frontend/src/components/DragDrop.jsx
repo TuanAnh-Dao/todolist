@@ -1,4 +1,4 @@
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import Task from "./Task";
 import { reorder, getGroupByID, updateGroup, move } from "../utils/ListAction";
 
