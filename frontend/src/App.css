@@ -506,3 +506,12 @@ input[type="checkbox"] {
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 
 }
+.fullScreen{
+  background-color: black;
+}
+
+.page-content {
+  
+  min-height: 100vh;
+  
+}

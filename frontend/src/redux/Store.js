@@ -1,23 +1,8 @@
-import rootReducer from './reducers/rootReducer';
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import { composeWithDevTools } from '@redux-devtools/extension';
+import groupReducer from "./features/groupSlice";
+import { configureStore } from "@reduxjs/toolkit";
 
+const rootReducer = {groups: groupReducer};
 
-
-const middleware = [thunk]
-
-
-export const store = createStore(
-    rootReducer,
-    composeWithDevTools(
-        applyMiddleware(...middleware)
-        // other store enhancers if any
-      )
-)
-
-
-
-
+export const store = configureStore({ reducer:  rootReducer});
 
 export default store;
