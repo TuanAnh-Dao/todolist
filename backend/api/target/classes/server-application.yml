@@ -1,0 +1,32 @@
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+  port: 5000
+spring:
+  datasource:
+    password: hung68699702
+    url: jdbc:mysql://database-1.cfzty5dpbn4z.ap-northeast-1.rds.amazonaws.com:3306/todolist?serverTimezone=UTC
+    username: admin
+  jackson:
+    serialization:
+      indent_output: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
+    show-sql: false
+todolist:
+  app:
+    jwtSecret: todolistapp
+    jwtExpirationMs: 400000
+    jwtCookieName: todolist
+logging:
+  level:
+    org:
+      springframework:
+        security: INFO

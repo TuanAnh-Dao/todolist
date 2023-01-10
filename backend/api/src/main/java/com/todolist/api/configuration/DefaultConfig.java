@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -16,6 +17,8 @@ public class DefaultConfig {
     @Bean
     CommandLineRunner stateRunner(StateRepository stateRepository){
         return args -> {
+            
+            
             State state2 = new State(
                     "Pending",
                     0,
@@ -28,7 +31,7 @@ public class DefaultConfig {
                     );
 
             State state3 = new State(
-                    "In Progess",
+                    "In Progress",
                     2,
                     "#fff"
                     );
@@ -37,26 +40,40 @@ public class DefaultConfig {
                     3,
                     "#fff"
                     );
-            stateRepository.saveAll(List.of(state1,state2,state3,state4));
-        };
-    }
+            List<State> stateList = new ArrayList<>(List.of(state1,state2,state3,state4));
 
-    @Bean
-    CommandLineRunner taskRunner(TaskRepository taskRepository, StateRepository stateRepository){
-        return args -> {
-            List<State> stateList = stateRepository.findAll();
-            stateList.forEach(state -> {
+
+            for (State state: stateList) {
+                List<Task> taskList = new ArrayList<>();
                 for (int i = 0; i < 3; i++) {
                     Task task = new Task(
                             String.valueOf(i),
-                            LocalDate.of(2022,Month.OCTOBER,13),
-                            state
-                    );
-                    taskRepository.save(task);
+                            LocalDate.of(2022,Month.OCTOBER,13));
+                    taskList.add(task);
                 }
-            });
+                state.setTaskList(taskList);
+            }
+
+            stateRepository.saveAll(stateList);
         };
     }
+
+//    @Bean
+//    CommandLineRunner taskRunner(TaskRepository taskRepository, StateRepository stateRepository){
+//        return args -> {
+//            List<State> stateList = stateRepository.findAll();
+//            stateList.forEach(state -> {
+//                for (int i = 0; i < 3; i++) {
+//                    Task task = new Task(
+//                            String.valueOf(i),
+//                            LocalDate.of(2022,Month.OCTOBER,13),
+//                            state
+//                    );
+//                    taskRepository.save(task);
+//                }
+//            });
+//        };
+//    }
     @Bean
     CommandLineRunner roleRunner(RoleRepository roleRepository){
         return args -> {

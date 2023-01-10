@@ -1,8 +1,8 @@
 const Configuration = {
-    TODOLIST_URL: "http://localhost:8080/api/v1"
+    TODOLIST_URL: "http://localhost:8080/todos"
 }
 
-export default Configuration;
+
   
 
 

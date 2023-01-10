@@ -18,4 +18,8 @@ public class StateService {
     public void addState(State state){
         stateRepository.save(state);
     }
+
+    public List<State> saveAllStates(List<State> stateList ){
+        return stateRepository.saveAll(stateList);
+    }
 }

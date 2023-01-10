@@ -1,120 +1,125 @@
+import Configuration from "../Configuration";
 
+function ApiService() {
+  async function retrieveTasks() {
+    return fetch(Configuration.TODOLIST_URL)
+      .then((response) => {
+        if (!response.ok) {
+          this.handleResponseError(response);
+        }
 
-function ApiService(url) {
-  console.log(url)
-  const methods = {
-    getData() {
-      return fetch(url + `/State`)
-        .then((response) => {
-          if (!response.ok) {
-            this.handleResponseError(response);
-          }
-          debugger;
-          return response.json();
-        })
-
-        .then((json) => {
-          console.log("Retrieved items:");
-          console.log(json);
-          
-          return json;
-        })
-
-        .catch((error) => {
-          this.handleError(error);
-        });
-    },
-
-    createItem(newitem) {
-      console.log("ItemService.createItem():");
-
-      console.log(newitem);
-
-      return fetch(url, {
-        method: "POST",
-
-        mode: "cors",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify(newitem),
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            this.handleResponseError(response);
-          }
 
-          return response.json();
-        })
+      .then((json) => {
+        console.log("Retrieved items:");
 
-        .catch((error) => {
-          this.handleError(error);
-        });
-    },
+        console.log(json);
 
-    deleteItem(taskID) {
-      console.log("ItemService.deleteItem():");
+        const items = [];
 
-      console.log("item: " + taskID);
+        const itemArray = json._embedded.collectionItems;
 
-      return fetch(`${url}/${taskID}`, {
-        method: "DELETE",
+        for (var i = 0; i < itemArray.length; i++) {
+          itemArray[i]["link"] = itemArray[i]._links.self.href;
 
-        mode: "cors",
+          items.push(itemArray[i]);
+        }
+
+        return items;
       })
-        .then((response) => {
-          if (!response.ok) {
-            this.handleResponseError(response);
-          }
-        })
 
-        .catch((error) => {
-          this.handleError(error);
-        });
-    },
-
-    changeStatus(task) {
-      console.log("ItemService.updateItem():");
-
-      console.log(task);
-
-      return fetch(url + `/${task.id}`, {
-        method: "PUT",
-
-        mode: "cors",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify(task),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            this.handleResponseError(response);
-          }
-
-          return response.json();
-        })
-
-        .catch((error) => {
-          this.handleError(error);
-        });
-    },
-
-    handleResponseError(response) {
-      throw new Error("HTTP error, status = " + response.status);
-    },
-
-    handleError(error) {
-      console.log(error.message);
-    }
-
+      .catch((error) => {
+        this.handleError(error);
+      });
   }
-  return methods;
 
+  const createItem = async (newitem) => {
+    console.log("ItemService.createItem():");
+
+    console.log(newitem);
+
+    return fetch(this.config.ITEM_COLLECTION_URL, {
+      method: "POST",
+
+      mode: "cors",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(newitem),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          this.handleResponseError(response);
+        }
+
+        return response.json();
+      })
+
+      .catch((error) => {
+        this.handleError(error);
+      });
+  };
+
+  const deleteItem = async (taskID) => {
+    console.log("ItemService.deleteItem():");
+
+    console.log("item: " + taskID);
+
+    return fetch(Configuration.TODOLIST_URL + `/${taskID}`, {
+      method: "DELETE",
+
+      mode: "cors",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          this.handleResponseError(response);
+        }
+      })
+
+      .catch((error) => {
+        this.handleError(error);
+      });
+  };
+
+  const changeStatus = async (task) => {
+    console.log("ItemService.updateItem():");
+
+    console.log(task);
+
+    return fetch(Configuration.TODOLIST_URL + `/${task.id}`, {
+      method: "PUT",
+
+      mode: "cors",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(task),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          this.handleResponseError(response);
+        }
+
+        return response.json();
+      })
+
+      .catch((error) => {
+        this.handleError(error);
+      });
+  };
+
+  const handleResponseError = (response) => {
+    throw new Error("HTTP error, status = " + response.status);
+  };
+
+  function handleError(error) {
+    console.log(error.message);
+  }
 }
 
 export default ApiService;
