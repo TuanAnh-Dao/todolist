@@ -461,6 +461,20 @@ input[type="checkbox"] {
   max-height: 65vh;
   min-height: 50vh;
 }
+.defaultHeight{
+  min-height: 62px;
+}
+.gridCard{
+  min-height: 80vh;
+
+}
+.transition{
+  transition: "all .2s",
+}
+.wrapper{
+  padding: 2%;
+  min-height: 100vh;
+}
 
 .scrollable::-webkit-scrollbar-thumb {
   background-color: #d6dee1;

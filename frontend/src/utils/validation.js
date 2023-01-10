@@ -2,8 +2,8 @@ import * as Yup from "yup";
 import dayjs from "dayjs";
 
 export const validationSchema = Yup.object({
-  task: Yup.string()
-    .required("Task is required!")
+  name: Yup.string()
+    .required("Name is required!")
     .min(5, "Task must be at least 6 characters")
     .max(120, "Task must not exceed 20 characters"),
   deadline: Yup.date()

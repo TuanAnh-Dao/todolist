@@ -16,19 +16,22 @@ const move = (
   const sourceClone = Array.from(source);
   const destClone = Array.from(destination);
   const [removed] = sourceClone.splice(droppableSource.index, 1);
+  const copyRemoveItem = { ...removed };
   const result = {};
 
-  removed.status = status;
-  destClone.splice(droppableDestination.index, 0, removed);
+  copyRemoveItem.status = status;
+  destClone.splice(droppableDestination.index, 0, copyRemoveItem);
   result[droppableSource.droppableId] = sourceClone;
   result[droppableDestination.droppableId] = destClone;
 
   return result;
 };
 const updateGroup = (state, tasks, groupId) => {
-  const updateGroup = _.map(state, (group) => {
+  const updateGroup = state.map((group) => {
     if (group.id == groupId) {
-      group.taskList = tasks;
+      const copyGroup = { ...group };
+      copyGroup.taskList = tasks;
+      return copyGroup;
     }
     return group;
   });
@@ -36,25 +39,46 @@ const updateGroup = (state, tasks, groupId) => {
   return updateGroup;
 };
 const getGroupByID = (state, groupID) => {
-  
   return state.find((group) => group.id == groupID);
 };
 const getGroupByName = (state, groupName) => {
   let index = state.findIndex((group) => group.name == groupName);
-  
+
   return { index: index, group: state[index] };
 };
 
 const formatDataForDisplay = (data) => {
-  let formatedData = data?.map((state)=>{
+  let formatedData = data?.map((state) => {
     let status = state.name;
-    let tasks = state?.taskList?.map(function(task){
-      return {...task, status: this}
-    }, status)
-    return {...state, 'taskList': tasks};
-  })
-  
-  return formatedData;
-}
+    let tasks = state?.taskList?.map(function (task) {
+      return { ...task, status: this };
+    }, status);
+    return { ...state, taskList: tasks };
+  });
 
-export { reorder, getGroupByID, getGroupByName, updateGroup, move, formatDataForDisplay };
+  return formatedData;
+};
+const compare = (arr1, arr2) => {
+  let result =
+    arr1.length == arr2.length &&
+    arr1.every((element1, idx1) => {
+      
+      return Object.keys(element1).every((key) => {
+        if(Array.isArray(element1[key])){
+          return compare(element1[key], arr2[idx1][key]);
+        }
+        let check = element1[key] == arr2[idx1][key]
+        return check; 
+      });
+    });
+  return result;
+};
+export {
+  reorder,
+  getGroupByID,
+  getGroupByName,
+  updateGroup,
+  move,
+  formatDataForDisplay,
+  compare,
+};

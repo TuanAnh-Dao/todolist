@@ -1,11 +1,18 @@
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import Task from "./Task";
 import { reorder, getGroupByID, updateGroup, move } from "../utils/ListAction";
+import { useDispatch, useSelector } from "react-redux";
+import { updateState } from "../redux/features/groupSlice";
+import { Grid } from "@mui/material";
 
-export default function DragDrop({ state, setState }) {
+export default function DragDrop() {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.groups.current);
+  console.log(state)
   function onDragEnd(result) {
     const { source, destination } = result;
-    let newState = [...state];
+    let newState = state;
+    
     const sourceDropID = source.droppableId;
     const desDropID = destination.droppableId;
     
@@ -20,7 +27,7 @@ export default function DragDrop({ state, setState }) {
         source.index,
         destination.index
       );
-      newState = updateGroup([...state], items, sourceDropID);
+      newState = updateGroup(newState, items, sourceDropID);
     } else {
       const result = move(
         getGroupByID(state, sourceDropID)?.taskList,
@@ -32,7 +39,7 @@ export default function DragDrop({ state, setState }) {
       newState = updateGroup(newState, result[sourceDropID], sourceDropID);
       newState = updateGroup(newState, result[desDropID], desDropID);
     }
-    setState(newState);
+    dispatch(updateState(newState));
   }
 
   function handleDelete(taskId, groupId) {
@@ -41,13 +48,13 @@ export default function DragDrop({ state, setState }) {
     let newState = [...state];
 
     newState = updateGroup(newState, newTasks, groupId);
-    setState(newState);
+    dispatch(updateState(newState));
   }
  
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {state?.map((el, ind) => (
-        <div className="col-md-3 " key={ind}>
+        <Grid className="gridCard" item xs={3} key={ind}>
           <div className="card rounded shadow-sm border-light">
             <div className="card-body p-1 text-center text-uppercase font-weight-bold text-secondary">
               {el.name}
@@ -81,7 +88,7 @@ export default function DragDrop({ state, setState }) {
               </div>
             )}
           </Droppable>
-        </div>
+        </Grid>
       ))}
     </DragDropContext>
   );

@@ -33,15 +33,17 @@
     "react-redux": "^8.0.5",
     "react-scripts": "^5.0.1",
     "react-spinners": "^0.13.7",
+    "react-transition-group": "^4.4.5",
     "reactstrap": "^9.1.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.2",
+    "remote-redux-devtools": "^0.5.16",
     "uuid": "^9.0.0",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "BROWSER='safari' react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

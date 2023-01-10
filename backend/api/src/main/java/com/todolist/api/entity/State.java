@@ -1,12 +1,15 @@
 package com.todolist.api.entity;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.*;
 
 @Entity
+@AllArgsConstructor
 @Table(name = "State")
 public class State {
     private static final String State = "state";
@@ -19,7 +22,8 @@ public class State {
 
     private String color;
 
-    @OneToMany(targetEntity = Task.class,mappedBy = State,cascade=ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade= ALL,  fetch = FetchType.EAGER)
+    @JoinColumn(name = "state_id", referencedColumnName = "id")
     private List<Task> taskList;
 
     public UUID getId() {

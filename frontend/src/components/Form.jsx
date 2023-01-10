@@ -1,34 +1,30 @@
 import { LoadingButton } from "@mui/lab";
+
+
 import React, { useState, useEffect, useRef } from "react";
 import Grid from "@mui/material/Grid";
 import InputField from "../customFields/inputField";
 import DateField from "../customFields/dateField";
 import { FastField, Form, Formik } from "formik";
 import SaveIcon from "@mui/icons-material/Save";
-import { useDispatch } from "react-redux";
 
-import { bindActionCreators } from "@reduxjs/toolkit";
+
 import { validationSchema } from "../utils/validation";
 
-export default function From() {
-  const dispatch = useDispatch;
+
+export default function From(props) {
+  const {onSubmit} = props
   const [loading, setLoading] = useState(false);
   const initialValues = {
-    task: "",
+    name: "",
     deadline: "",
   };
 
-
-
   return (
-    <Formik initialValues={initialValues}
-    validationSchema={validationSchema}
-    onSubmit={(values, actions) => {
-         setTimeout(() => {
-           alert(JSON.stringify(values, null, 2));
-           actions.setSubmitting(false);
-         }, 1000);
-       }}
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
     >
       {(formikProps) => {
         const { values, errors, touched } = formikProps;
@@ -44,7 +40,7 @@ export default function From() {
                 alignItems="center"
               >
                 <FastField
-                  name="task"
+                  name="name"
                   component={InputField}
                   label="Task"
                   placeholder="Task name"
@@ -71,14 +67,18 @@ export default function From() {
                 justifyContent="center"
                 md={3}
               >
-                <LoadingButton
-                  loading={loading}
-                  startIcon={<SaveIcon />}
-                  type="submit"
-                  variant="contained"
-                >
-                  Add Task
-                </LoadingButton>
+               
+                    <LoadingButton
+                      className="mt-3"
+                      loading={loading}
+                      startIcon={<SaveIcon />}
+                      type="submit"
+                      variant="contained"
+                    >
+                      Add Task
+                    </LoadingButton>
+                  
+                
               </Grid>
             </Grid>
           </Form>
